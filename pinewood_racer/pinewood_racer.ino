@@ -1,6 +1,6 @@
  #include <SoftwareServo.h>
 
-#define FULL_THROTTLE 180
+#define FULL_THROTTLE 100
 #define IDLE_THROTTLE 30
 #define STOP_THROTTLE 10 
 // The number of full throttle time steps to operate for.

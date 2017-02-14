@@ -8,8 +8,8 @@
 #define STATE_RUN 3
 
 /* What PWM should be used for each throttle setting. */
-#define FULL_THROTTLE 50
-#define IDLE_THROTTLE 30
+#define FULL_THROTTLE 80 // 50 for testing. 180 for flight.
+#define IDLE_THROTTLE 30 
 #define STOP_THROTTLE 10 
 
 /* The number of 20 ms full throttle time steps to operate for. */
@@ -25,6 +25,8 @@ SoftwareServo myservo;  // create servo object to control a servo
  */
 #define BTN 3
 #define LED 1
+#define SPARE_GND 4
+
 #define CONTROL_PIN 0
 int arm_count = 0;
 int state = STATE_OFF;
@@ -40,7 +42,9 @@ void setup()
   myservo.attach(CONTROL_PIN);  // Attaches the servo on pin 2 to the servo object
   pinMode(BTN, INPUT_PULLUP);
   pinMode(LED, OUTPUT);
+  pinMode(SPARE_GND, OUTPUT);
 
+  digitalWrite(SPARE_GND, LOW);
   arm_count = 0;
   state = STATE_OFF;
 }
@@ -138,6 +142,7 @@ int state_arm(){
  */
 int state_off(){
   myservo.write(STOP_THROTTLE);
+  analogWrite(LED, 0);
   while(BUTTON_RELEASED) {
     SoftwareServo::refresh();
     delay(20);   // waits for the servo to get there
